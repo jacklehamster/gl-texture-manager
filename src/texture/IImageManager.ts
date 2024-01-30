@@ -9,6 +9,10 @@ export interface IImageManager {
     imageId: MediaId,
     drawProcedure: (context: OffscreenCanvasRenderingContext2D) => void,
   ): Promise<MediaData>;
+  loadCanvas(
+    imageId: MediaId,
+    canvas: HTMLCanvasElement | OffscreenCanvas,
+  ): Promise<MediaData>;
   loadVideo(
     imageId: MediaId,
     src: Url,

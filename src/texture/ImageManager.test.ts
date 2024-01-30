@@ -2,10 +2,11 @@ import "../../test/MockMedia";
 import "../../test/MockCanvas";
 import { beforeEach, describe, expect, it, jest } from 'bun:test';
 import { ImageManager } from './ImageManager';
+import { IImageManager } from "./IImageManager";
 import { MediaData } from './MediaData';
 
 describe('ImageManager', () => {
-  let imageManager: ImageManager;
+  let imageManager: IImageManager;
   let mockMediaInfo: MediaData;
 
   beforeEach(() => {

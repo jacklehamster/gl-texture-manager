@@ -1,12 +1,13 @@
 import { beforeEach, describe, expect, it, jest } from 'bun:test';
 import { TextureManager } from './TextureManager';
+import { ITextureManager } from "./ITextureManager"
 import "../../test/GLMock";
 import "../../test/MockCanvas";
 import { GL } from "../Constants";
 
 describe('TextureManager', () => {
   let gl: Partial<GL>;
-  let textureManager: TextureManager;
+  let textureManager: ITextureManager;
 
   beforeEach(() => {
     // Mock WebGL methods
