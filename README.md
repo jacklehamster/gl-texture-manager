@@ -1,9 +1,9 @@
-# bun-template
-[![npm version](https://badge.fury.io/js/bun-template.svg)](https://www.npmjs.com/package/bun-template)
+# gl-texture-manager
+[![npm version](https://badge.fury.io/js/gl-texture-manager.svg)](https://www.npmjs.com/package/gl-texture-manager)
 
 Bun template for creating projects using bunjs
 
-![](https://jacklehamster.github.io/bun-template/icon.png)
+![](https://jacklehamster.github.io/gl-texture-manager/icon.png)
 ## Install bun
 
 https://bun.sh/

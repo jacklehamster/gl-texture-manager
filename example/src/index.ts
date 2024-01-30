@@ -1,3 +1,3 @@
-import { Hello } from "bun-template";
+import { TextureManager } from "gl-texture-manager";
 
-export { Hello };
+export { TextureManager };

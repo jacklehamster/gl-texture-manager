@@ -1,9 +1,9 @@
-import { Hello } from "bun-template";
+import { TextureManager } from "gl-texture-manager";
 import Bao from "baojs";
 import serveStatic from "serve-static-bun";
 
 const app = new Bao();
-console.log(Hello.hello());
+console.log(TextureManager);
 
 app.get("/*any", serveStatic("/", { middlewareMode: "bao" }));
 
