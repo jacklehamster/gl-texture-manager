@@ -33,13 +33,13 @@ class Z {
     return new Z(z, k, undefined, k);
   }
   static async loadVideo(z, b, k, N = 30, y = 1, U = Number.MAX_SAFE_INTEGER) {
-    const w = await new Promise((P, W) => {
+    const w = await new Promise((P, H) => {
       const F = document.createElement("video");
       if (F.loop = true, k !== undefined)
         F.volume = k;
       F.addEventListener("loadedmetadata", () => {
         F.play(), F.playbackRate = y, P(F);
-      }, { once: true }), document.addEventListener("focus", () => F.play()), F.addEventListener("error", (_) => W(_.error)), F.src = b;
+      }, { once: true }), document.addEventListener("focus", () => F.play()), F.addEventListener("error", (h) => H(h.error)), F.src = b;
     }), j = new Z(z, w, Math.min(N * y, U));
     return j.#z.add(() => w.pause()), j;
   }
@@ -97,7 +97,7 @@ class v {
     return await Z.loadWebcam(z, b);
   }
 }
-var H = globalThis.WebGL2RenderingContext ?? {};
+var W = globalThis.WebGL2RenderingContext ?? {};
 var n = function(z, b = (k) => k.key) {
   var k = [];
   return M(z, "", true, (N) => k.push(N), b), k.join("");
@@ -105,7 +105,7 @@ var n = function(z, b = (k) => k.key) {
 var L = function(z) {
   if (z === null)
     return true;
-  var b = E(z.left), k = E(z.right);
+  var b = p(z.left), k = p(z.right);
   if (Math.abs(b - k) <= 1 && L(z.left) && L(z.right))
     return true;
   return false;
@@ -113,8 +113,8 @@ var L = function(z) {
 var R = function(z, b, k, N, y) {
   const U = y - N;
   if (U > 0) {
-    const w = N + Math.floor(U / 2), j = b[w], P = k[w], W = { key: j, data: P, parent: z };
-    return W.left = R(W, b, k, N, w), W.right = R(W, b, k, w + 1, y), W;
+    const w = N + Math.floor(U / 2), j = b[w], P = k[w], H = { key: j, data: P, parent: z };
+    return H.left = R(H, b, k, N, w), H.right = R(H, b, k, w + 1, y), H;
   }
   return null;
 };
@@ -143,18 +143,18 @@ var f = function(z, b, k, N, y) {
   }
   f(z, b, k, j, y), f(z, b, j + 1, N, y);
 };
-var p = function(z, b) {
+var E = function(z, b) {
   return Math.max(b, Math.pow(2, Math.ceil(Math.log(z) / Math.log(2))));
 };
-var O = function(z, b, k, N) {
+var x = function(z, b, k, N) {
   if (k < 1)
     throw new Error("Invalid count");
-  const y = p(z, N.min), U = p(b, N.min), w = new Map;
+  const y = E(z, N.min), U = E(b, N.min), w = new Map;
   let j = N.min;
   for (let P = 1;P <= k; P++) {
-    j = p(y * P, N.min);
-    const W = p(U * Math.ceil(k / P), N.min);
-    w.set(j, W);
+    j = E(y * P, N.min);
+    const H = E(U * Math.ceil(k / P), N.min);
+    w.set(j, H);
   }
   for (let P = j;P <= N.max; P *= 2)
     if (!w.has(P))
@@ -171,13 +171,13 @@ var M = function(z, b, k, N, y) {
       M(z.right, U, true, N, y);
   }
 };
-var E = function(z) {
-  return z ? 1 + Math.max(E(z.left), E(z.right)) : 0;
+var p = function(z) {
+  return z ? 1 + Math.max(p(z.left), p(z.right)) : 0;
 };
 var u = function(z, b) {
   return z > b ? 1 : z < b ? -1 : 0;
 };
-var h = function(z) {
+var _ = function(z) {
   var b = z.right;
   if (z.right = b.left, b.left)
     b.left.parent = z;
@@ -424,12 +424,12 @@ class X {
       else if (y.balanceFactor < -1) {
         if (y.right.balanceFactor === 1)
           S(y.right);
-        if (j = h(y), y === this._root)
+        if (j = _(y), y === this._root)
           this._root = j;
         break;
       } else if (y.balanceFactor > 1) {
         if (y.left.balanceFactor === -1)
-          h(y.left);
+          _(y.left);
         if (j = S(y), y === this._root)
           this._root = j;
         break;
@@ -472,7 +472,7 @@ class X {
       }
       b.key = w.key, b.data = w.data, b = w;
     }
-    var j = b.parent, P = b, W;
+    var j = b.parent, P = b, H;
     while (j) {
       if (j.left === P)
         j.balanceFactor -= 1;
@@ -481,15 +481,15 @@ class X {
       if (j.balanceFactor < -1) {
         if (j.right.balanceFactor === 1)
           S(j.right);
-        if (W = h(j), j === this._root)
-          this._root = W;
-        j = W;
+        if (H = _(j), j === this._root)
+          this._root = H;
+        j = H;
       } else if (j.balanceFactor > 1) {
         if (j.left.balanceFactor === -1)
-          h(j.left);
-        if (W = S(j), j === this._root)
-          this._root = W;
-        j = W;
+          _(j.left);
+        if (H = S(j), j === this._root)
+          this._root = H;
+        j = H;
       }
       if (j.balanceFactor === -1 || j.balanceFactor === 1)
         break;
@@ -531,7 +531,7 @@ class A {
   sibbling;
   textureSizeLimits;
   constructor(z, b, k, N) {
-    this.textureSizeLimits = k?.textureSizeLimits ?? N ?? { min: C, max: l }, this.size = z, this.slotNumber = b, this.parent = k, this.sibbling = undefined;
+    this.textureSizeLimits = k?.textureSizeLimits ?? N ?? { min: C, max: D }, this.size = z, this.slotNumber = b, this.parent = k, this.sibbling = undefined;
     const { x: y, y: U, textureIndex: w } = this.calculatePosition(z, b);
     this.x = y, this.y = U, this.textureIndex = w;
   }
@@ -579,9 +579,9 @@ class A {
     return j.sibbling = P, P.sibbling = j, [j, P];
   }
 }
-var x = false;
+var O = false;
 var C = 16;
-var l = 4096;
+var D = 4096;
 var g = 16;
 
 class B {
@@ -597,7 +597,7 @@ class B {
   numTextureSheets;
   initialSlots = [];
   constructor({ numTextureSheets: z, minTextureSize: b, maxTextureSize: k, excludeTexture: N } = {}, y) {
-    if (this.numTextureSheets = z ?? g, this.minTextureSize = b ?? C, this.maxTextureSize = k ?? l, y)
+    if (this.numTextureSheets = z ?? g, this.minTextureSize = b ?? C, this.maxTextureSize = k ?? D, y)
       this.numTextureSheets = Math.min(this.numTextureSheets, y.getParameter(WebGL2RenderingContext.MAX_TEXTURE_IMAGE_UNITS)), this.maxTextureSize = Math.min(this.maxTextureSize, y.getParameter(WebGL2RenderingContext.MAX_TEXTURE_SIZE)), this.minTextureSize = Math.min(this.minTextureSize, this.maxTextureSize);
     for (let U = 0;U < this.numTextureSheets; U++) {
       if (N?.(U))
@@ -620,7 +620,7 @@ class B {
     return this.initialSlots.filter((z) => this.isSlotUsed(z)).length;
   }
   allocateHelper(z, b, k = 1) {
-    const N = O(z, b, k, { min: this.minTextureSize, max: this.maxTextureSize }), y = this.findSlot(N);
+    const N = x(z, b, k, { min: this.minTextureSize, max: this.maxTextureSize }), y = this.findSlot(N);
     if (!y)
       throw new Error(`Could not find a slot for texture to fit ${k} sprites of size ${z}x${b}`);
     this.textureSlots.remove(y);
@@ -659,7 +659,7 @@ class B {
   deallocateHelper(z) {
     if (z.parent && z.sibbling && !this.isSlotUsed(z.sibbling)) {
       const b = z.sibbling;
-      if (this.textureSlots.remove(b), x && this.textureSlots.find(z))
+      if (this.textureSlots.remove(b), O && this.textureSlots.find(z))
         throw new Error("Slot is not expected to be in the tree");
       const k = z.parent;
       this.deallocateHelper(k);
@@ -699,7 +699,7 @@ class B {
 var V = 15;
 var $ = `TEXTURE${V}`;
 
-class D {
+class l {
   gl;
   texturesById = {};
   #z = new OffscreenCanvas(1, 1).getContext("2d");
@@ -715,26 +715,26 @@ class D {
       if (!b)
         return;
       const k = z === $ ? this.#k : this.#b;
-      this.texturesById[z] = b, this.gl.bindTexture(H.TEXTURE_2D, b), this.gl.texImage2D(H.TEXTURE_2D, 0, H.RGBA, k.maxTextureSize, k.maxTextureSize, 0, H.RGBA, H.UNSIGNED_BYTE, null), this.generateMipMap(z);
+      this.texturesById[z] = b, this.gl.bindTexture(W.TEXTURE_2D, b), this.gl.texImage2D(W.TEXTURE_2D, 0, W.RGBA, k.maxTextureSize, k.maxTextureSize, 0, W.RGBA, W.UNSIGNED_BYTE, null), this.generateMipMap(z);
     }
     return this.texturesById[z];
   }
   loadTexture(z, b, k, N, y) {
-    this.gl.activeTexture(H[b]), this.gl.bindTexture(H.TEXTURE_2D, k), this.applyTexImage2d(z, N, y), this.gl.texParameteri(H.TEXTURE_2D, H.TEXTURE_MIN_FILTER, H.LINEAR);
+    this.gl.activeTexture(W[b]), this.gl.bindTexture(W.TEXTURE_2D, k), this.applyTexImage2d(z, N, y), this.gl.texParameteri(W.TEXTURE_2D, W.TEXTURE_MIN_FILTER, W.LINEAR);
   }
   applyTexImage2d(z, [b, k, N, y], [U, w, j, P]) {
     if (N === j && y === P && !b && !k)
-      this.gl.texSubImage2D(H.TEXTURE_2D, 0, U, w, j, P, H.RGBA, H.UNSIGNED_BYTE, z.texImgSrc);
+      this.gl.texSubImage2D(W.TEXTURE_2D, 0, U, w, j, P, W.RGBA, W.UNSIGNED_BYTE, z.texImgSrc);
     else {
-      const W = this.#z.canvas;
+      const H = this.#z.canvas;
       if (z.texImgSrc instanceof ImageData) {
-        if (W.width = j || z.width, W.height = P || z.height, this.#z.putImageData(z.texImgSrc, 0, 0), b || k)
+        if (H.width = j || z.width, H.height = P || z.height, this.#z.putImageData(z.texImgSrc, 0, 0), b || k)
           console.warn("Offset not available when sending imageData");
       } else {
-        const F = N || z.width, _ = y || z.height;
-        W.width = j || F, W.height = P || _, this.#z.drawImage(z.texImgSrc, b, k, F, _, 0, 0, W.width, W.height);
+        const F = N || z.width, h = y || z.height;
+        H.width = j || F, H.height = P || h, this.#z.drawImage(z.texImgSrc, b, k, F, h, 0, 0, H.width, H.height);
       }
-      this.gl.texSubImage2D(H.TEXTURE_2D, 0, U, w, W.width, W.height, H.RGBA, H.UNSIGNED_BYTE, W);
+      this.gl.texSubImage2D(W.TEXTURE_2D, 0, U, w, H.width, H.height, W.RGBA, W.UNSIGNED_BYTE, H);
     }
   }
   allocateSlotForImage(z) {
@@ -746,7 +746,7 @@ class D {
   }
   assignImageToTexture(z, b, k, N, y) {
     const U = N ?? [0, 0, z.width, z.height], w = y ?? [0, 0, U[2], U[3]], j = () => {
-      this.gl.bindTexture(H.TEXTURE_2D, k), this.applyTexImage2d(z, U, w);
+      this.gl.bindTexture(W.TEXTURE_2D, k), this.applyTexImage2d(z, U, w);
     };
     if (this.#N.has(z))
       j();
@@ -757,12 +757,12 @@ class D {
   setupTextureForVideo(z) {
     const b = this.getTexture(z);
     if (b)
-      this.gl.activeTexture(H[z]), this.gl.bindTexture(H.TEXTURE_2D, b), this.gl.texParameteri(H.TEXTURE_2D, H.TEXTURE_MIN_FILTER, H.LINEAR), this.gl.texParameteri(H.TEXTURE_2D, H.TEXTURE_MAG_FILTER, H.LINEAR);
+      this.gl.activeTexture(W[z]), this.gl.bindTexture(W.TEXTURE_2D, b), this.gl.texParameteri(W.TEXTURE_2D, W.TEXTURE_MIN_FILTER, W.LINEAR), this.gl.texParameteri(W.TEXTURE_2D, W.TEXTURE_MAG_FILTER, W.LINEAR);
   }
   generateMipMap(z) {
     const b = this.getTexture(z);
     if (b)
-      this.gl.activeTexture(H[z]), this.gl.bindTexture(H.TEXTURE_2D, b), this.gl.texParameteri(H.TEXTURE_2D, H.TEXTURE_MIN_FILTER, H.LINEAR_MIPMAP_LINEAR), this.gl.texParameteri(H.TEXTURE_2D, H.TEXTURE_MAG_FILTER, H.LINEAR), this.gl.generateMipmap(H.TEXTURE_2D);
+      this.gl.activeTexture(W[z]), this.gl.bindTexture(W.TEXTURE_2D, b), this.gl.texParameteri(W.TEXTURE_2D, W.TEXTURE_MIN_FILTER, W.LINEAR_MIPMAP_LINEAR), this.gl.texParameteri(W.TEXTURE_2D, W.TEXTURE_MAG_FILTER, W.LINEAR), this.gl.generateMipmap(W.TEXTURE_2D);
   }
   dispose() {
     Object.values(this.texturesById).forEach((z) => {
@@ -771,5 +771,5 @@ class D {
   }
 }
 export {
-  D as TextureManager
+  l as TextureManager
 };
