@@ -23,8 +23,8 @@ curl -fsSL https://bun.sh/install | bash
 
 ## Run example
 
-[https://jacklehamster.github.io/bun-template/example/](https://jacklehamster.github.io/bun-template/example/)
+[https://jacklehamster.github.io/gl-texture-manager/example/](https://jacklehamster.github.io/gl-texture-manager/example/)
 
 ## Github Source
 
-[https://github.com/jacklehamster/bun-template/](https://github.com/jacklehamster/bun-template/)
+[https://github.com/jacklehamster/gl-texture-manager/](https://github.com/jacklehamster/gl-texture-manager/)
