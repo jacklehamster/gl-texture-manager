@@ -28,7 +28,7 @@ export class MediaData {
   }
 
   static createFromCanvas(mediaId: MediaId, canvas: OffscreenCanvas | HTMLCanvasElement): MediaData {
-    return new MediaData(mediaId, canvas);
+    return new MediaData(mediaId, canvas, undefined, canvas);
   }
 
   static async loadImage(mediaID: MediaId, src: string): Promise<MediaData> {
