@@ -4,7 +4,7 @@ import { SpriteSheet } from "./spritesheet/SpriteSheet";
 export type MediaType = "image" | "video" | "canvas" | "draw" | "webcam" | string;
 
 interface PostProcessable {
-  postProcessing?: (ctx: OffscreenCanvasRenderingContext2D) => Promise<void> | void;
+  postProcessing?: (ctx: OffscreenCanvasRenderingContext2D) => Promise<OffscreenCanvasRenderingContext2D | void> | OffscreenCanvasRenderingContext2D | void;
 }
 
 interface BaseMedia extends PostProcessable {

@@ -20,13 +20,13 @@ export class ImageManager implements IImageManager {
     webcam: createDrawProcedure<WebcamMedia>((imageId, media) => this.loadWebCam(imageId, media.deviceId)) as DrawProcedure<Media>,
   };
 
-  private async postProcess(mediaData: MediaData, postProcessing: (context: OffscreenCanvasRenderingContext2D) => Promise<void> | void) {
+  private async postProcess(mediaData: MediaData, postProcessing: (context: OffscreenCanvasRenderingContext2D) => Promise<void | OffscreenCanvasRenderingContext2D> | void | OffscreenCanvasRenderingContext2D) {
     if (mediaData.canvasImgSrc) {
       const canvas = new OffscreenCanvas(mediaData.width, mediaData.height);
-      const ctx = canvas.getContext("2d");
+      let ctx = canvas.getContext("2d");
       if (ctx) {
         ctx.drawImage(mediaData.canvasImgSrc, 0, 0);
-        await postProcessing(ctx);
+        ctx = await postProcessing(ctx) ?? ctx;
       }
       const id = mediaData.id;
       mediaData.dispose();

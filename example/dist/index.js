@@ -39,7 +39,7 @@ class Z {
         F.volume = k;
       F.addEventListener("loadedmetadata", () => {
         F.play(), F.playbackRate = y, P(F);
-      }, { once: true }), document.addEventListener("focus", () => F.play()), F.addEventListener("error", (h) => H(h.error)), F.src = b;
+      }, { once: true }), document.addEventListener("focus", () => F.play()), F.addEventListener("error", (S) => H(S.error)), F.src = b;
     }), j = new Z(z, w, Math.min(N * y, U));
     return j.#z.add(() => w.pause()), j;
   }
@@ -68,9 +68,10 @@ class v {
   renderProcedures = { image: T((z, b) => this.loadImage(z, b.src)), video: T((z, b) => this.loadVideo(z, b.src, b.volume, b.fps, b.playSpeed)), draw: T((z, b) => this.drawImage(z, b.draw)), canvas: T((z, b) => this.loadCanvas(z, b.canvas)), webcam: T((z, b) => this.loadWebCam(z, b.deviceId)) };
   async postProcess(z, b) {
     if (z.canvasImgSrc) {
-      const k = new OffscreenCanvas(z.width, z.height), N = k.getContext("2d");
+      const k = new OffscreenCanvas(z.width, z.height);
+      let N = k.getContext("2d");
       if (N)
-        N.drawImage(z.canvasImgSrc, 0, 0), await b(N);
+        N.drawImage(z.canvasImgSrc, 0, 0), N = await b(N) ?? N;
       const y = z.id;
       return z.dispose(), Z.createFromCanvas(y, k);
     }
@@ -98,14 +99,14 @@ class v {
   }
 }
 var W = globalThis.WebGL2RenderingContext ?? {};
-var n = function(z, b = (k) => k.key) {
+var u = function(z, b = (k) => k.key) {
   var k = [];
-  return M(z, "", true, (N) => k.push(N), b), k.join("");
+  return X(z, "", true, (N) => k.push(N), b), k.join("");
 };
 var L = function(z) {
   if (z === null)
     return true;
-  var b = p(z.left), k = p(z.right);
+  var b = E(z.left), k = E(z.right);
   if (Math.abs(b - k) <= 1 && L(z.left) && L(z.right))
     return true;
   return false;
@@ -118,13 +119,13 @@ var R = function(z, b, k, N, y) {
   }
   return null;
 };
-var Q = function(z) {
+var f = function(z) {
   if (z === null)
     return 0;
-  const b = Q(z.left), k = Q(z.right);
+  const b = f(z.left), k = f(z.right);
   return z.balanceFactor = b - k, Math.max(b, k) + 1;
 };
-var f = function(z, b, k, N, y) {
+var Q = function(z, b, k, N, y) {
   if (k >= N)
     return;
   const U = z[k + N >> 1];
@@ -141,19 +142,19 @@ var f = function(z, b, k, N, y) {
     let P = z[w];
     z[w] = z[j], z[j] = P, P = b[w], b[w] = b[j], b[j] = P;
   }
-  f(z, b, k, j, y), f(z, b, j + 1, N, y);
+  Q(z, b, k, j, y), Q(z, b, j + 1, N, y);
 };
-var E = function(z, b) {
+var p = function(z, b) {
   return Math.max(b, Math.pow(2, Math.ceil(Math.log(z) / Math.log(2))));
 };
-var x = function(z, b, k, N) {
+var O = function(z, b, k, N) {
   if (k < 1)
     throw new Error("Invalid count");
-  const y = E(z, N.min), U = E(b, N.min), w = new Map;
+  const y = p(z, N.min), U = p(b, N.min), w = new Map;
   let j = N.min;
   for (let P = 1;P <= k; P++) {
-    j = E(y * P, N.min);
-    const H = E(U * Math.ceil(k / P), N.min);
+    j = p(y * P, N.min);
+    const H = p(U * Math.ceil(k / P), N.min);
     w.set(j, H);
   }
   for (let P = j;P <= N.max; P *= 2)
@@ -161,20 +162,20 @@ var x = function(z, b, k, N) {
       w.set(P, U);
   return w;
 };
-var M = function(z, b, k, N, y) {
+var X = function(z, b, k, N, y) {
   if (z) {
     N(`${b}${k ? "\u2514\u2500\u2500 " : "\u251C\u2500\u2500 "}${y(z)}\n`);
     const U = b + (k ? "    " : "\u2502   ");
     if (z.left)
-      M(z.left, U, false, N, y);
+      X(z.left, U, false, N, y);
     if (z.right)
-      M(z.right, U, true, N, y);
+      X(z.right, U, true, N, y);
   }
 };
-var p = function(z) {
-  return z ? 1 + Math.max(p(z.left), p(z.right)) : 0;
+var E = function(z) {
+  return z ? 1 + Math.max(E(z.left), E(z.right)) : 0;
 };
-var u = function(z, b) {
+var n = function(z, b) {
   return z > b ? 1 : z < b ? -1 : 0;
 };
 var _ = function(z) {
@@ -192,7 +193,7 @@ var _ = function(z) {
     b.balanceFactor += z.balanceFactor;
   return b;
 };
-var S = function(z) {
+var h = function(z) {
   var b = z.left;
   if (z.left = b.right, z.left)
     z.left.parent = z;
@@ -208,9 +209,9 @@ var S = function(z) {
   return b;
 };
 
-class X {
+class M {
   constructor(z, b = false) {
-    this._comparator = z || u, this._root = null, this._size = 0, this._noDuplicates = !!b;
+    this._comparator = z || n, this._root = null, this._size = 0, this._noDuplicates = !!b;
   }
   destroy() {
     return this.clear();
@@ -423,14 +424,14 @@ class X {
         break;
       else if (y.balanceFactor < -1) {
         if (y.right.balanceFactor === 1)
-          S(y.right);
+          h(y.right);
         if (j = _(y), y === this._root)
           this._root = j;
         break;
       } else if (y.balanceFactor > 1) {
         if (y.left.balanceFactor === -1)
           _(y.left);
-        if (j = S(y), y === this._root)
+        if (j = h(y), y === this._root)
           this._root = j;
         break;
       }
@@ -480,14 +481,14 @@ class X {
         j.balanceFactor += 1;
       if (j.balanceFactor < -1) {
         if (j.right.balanceFactor === 1)
-          S(j.right);
+          h(j.right);
         if (H = _(j), j === this._root)
           this._root = H;
         j = H;
       } else if (j.balanceFactor > 1) {
         if (j.left.balanceFactor === -1)
           _(j.left);
-        if (H = S(j), j === this._root)
+        if (H = h(j), j === this._root)
           this._root = H;
         j = H;
       }
@@ -509,17 +510,17 @@ class X {
       throw new Error("bulk-load: tree is not empty");
     const N = z.length;
     if (k)
-      f(z, b, 0, N - 1, this._comparator);
-    return this._root = R(null, z, b, 0, N), Q(this._root), this._size = N, this;
+      Q(z, b, 0, N - 1, this._comparator);
+    return this._root = R(null, z, b, 0, N), f(this._root), this._size = N, this;
   }
   isBalanced() {
     return L(this._root);
   }
   toString(z) {
-    return n(this._root, z);
+    return u(this._root, z);
   }
 }
-X.default = X;
+M.default = M;
 
 class A {
   size;
@@ -579,13 +580,13 @@ class A {
     return j.sibbling = P, P.sibbling = j, [j, P];
   }
 }
-var O = false;
+var x = false;
 var C = 16;
 var D = 4096;
 var g = 16;
 
 class B {
-  textureSlots = new X((z, b) => {
+  textureSlots = new M((z, b) => {
     const k = z.size[0] * z.size[1] - b.size[0] * b.size[1];
     if (k !== 0)
       return k;
@@ -620,7 +621,7 @@ class B {
     return this.initialSlots.filter((z) => this.isSlotUsed(z)).length;
   }
   allocateHelper(z, b, k = 1) {
-    const N = x(z, b, k, { min: this.minTextureSize, max: this.maxTextureSize }), y = this.findSlot(N);
+    const N = O(z, b, k, { min: this.minTextureSize, max: this.maxTextureSize }), y = this.findSlot(N);
     if (!y)
       throw new Error(`Could not find a slot for texture to fit ${k} sprites of size ${z}x${b}`);
     this.textureSlots.remove(y);
@@ -659,7 +660,7 @@ class B {
   deallocateHelper(z) {
     if (z.parent && z.sibbling && !this.isSlotUsed(z.sibbling)) {
       const b = z.sibbling;
-      if (this.textureSlots.remove(b), O && this.textureSlots.find(z))
+      if (this.textureSlots.remove(b), x && this.textureSlots.find(z))
         throw new Error("Slot is not expected to be in the tree");
       const k = z.parent;
       this.deallocateHelper(k);
@@ -731,8 +732,8 @@ class l {
         if (H.width = j || z.width, H.height = P || z.height, this.#z.putImageData(z.texImgSrc, 0, 0), b || k)
           console.warn("Offset not available when sending imageData");
       } else {
-        const F = N || z.width, h = y || z.height;
-        H.width = j || F, H.height = P || h, this.#z.drawImage(z.texImgSrc, b, k, F, h, 0, 0, H.width, H.height);
+        const F = N || z.width, S = y || z.height;
+        H.width = j || F, H.height = P || S, this.#z.drawImage(z.texImgSrc, b, k, F, S, 0, 0, H.width, H.height);
       }
       this.gl.texSubImage2D(W.TEXTURE_2D, 0, U, w, H.width, H.height, W.RGBA, W.UNSIGNED_BYTE, H);
     }
