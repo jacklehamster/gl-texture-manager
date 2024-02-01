@@ -2,7 +2,7 @@
   "name": "gl-texture-manager",
   "module": "src/index.ts",
   "description": "A webgl library for loading up images / drawings / video and storing them as textures to be pushed to the GPU.",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "keywords": [
     "bun",
     "bunjs",
