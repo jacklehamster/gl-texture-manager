@@ -1,10 +1,11 @@
+import { CanvasProcessor } from "canvas-processor";
 import { MediaId } from "./ImageManager";
 import { SpriteSheet } from "./spritesheet/SpriteSheet";
 
 export type MediaType = "image" | "video" | "canvas" | "draw" | "webcam" | string;
 
 interface PostProcessable {
-  postProcessing?: (ctx: OffscreenCanvasRenderingContext2D) => Promise<OffscreenCanvasRenderingContext2D | void> | OffscreenCanvasRenderingContext2D | void;
+  postProcess?: CanvasProcessor;
 }
 
 interface BaseMedia extends PostProcessable {

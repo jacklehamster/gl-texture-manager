@@ -37,7 +37,7 @@ export class ImageManager implements IImageManager {
 
   async renderMedia(imageId: MediaId, media: Media): Promise<MediaData> {
     const mediaData = await this.renderProcedures[media.type](imageId, media);
-    const { postProcessing } = media;
+    const { postProcess: postProcessing } = media;
     return postProcessing ? this.postProcess(mediaData, postProcessing) : mediaData;
   }
 

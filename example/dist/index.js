@@ -39,7 +39,7 @@ class Z {
         F.volume = k;
       F.addEventListener("loadedmetadata", () => {
         F.play(), F.playbackRate = N, P(F);
-      }, { once: true }), document.addEventListener("focus", () => F.play()), F.addEventListener("error", (E) => H(E.error)), F.src = b;
+      }, { once: true }), document.addEventListener("focus", () => F.play()), F.addEventListener("error", (h) => H(h.error)), F.src = b;
     }), j = new Z(z, w, Math.min(y * N, U));
     return j.#z.add(() => w.pause()), j;
   }
@@ -78,7 +78,7 @@ class v {
     return z;
   }
   async renderMedia(z, b) {
-    const k = await this.renderProcedures[b.type](z, b), { postProcessing: y } = b;
+    const k = await this.renderProcedures[b.type](z, b), { postProcess: y } = b;
     return y ? this.postProcess(k, y) : k;
   }
   async drawImage(z, b) {
@@ -101,7 +101,7 @@ class v {
 var W = globalThis.WebGL2RenderingContext ?? {};
 var n = function(z, b = (k) => k.key) {
   var k = [];
-  return X(z, "", true, (y) => k.push(y), b), k.join("");
+  return M(z, "", true, (y) => k.push(y), b), k.join("");
 };
 var L = function(z) {
   if (z === null)
@@ -119,13 +119,13 @@ var R = function(z, b, k, y, N) {
   }
   return null;
 };
-var f = function(z) {
+var Q = function(z) {
   if (z === null)
     return 0;
-  const b = f(z.left), k = f(z.right);
+  const b = Q(z.left), k = Q(z.right);
   return z.balanceFactor = b - k, Math.max(b, k) + 1;
 };
-var Q = function(z, b, k, y, N) {
+var f = function(z, b, k, y, N) {
   if (k >= y)
     return;
   const U = z[k + y >> 1];
@@ -142,19 +142,19 @@ var Q = function(z, b, k, y, N) {
     let P = z[w];
     z[w] = z[j], z[j] = P, P = b[w], b[w] = b[j], b[j] = P;
   }
-  Q(z, b, k, j, N), Q(z, b, j + 1, y, N);
+  f(z, b, k, j, N), f(z, b, j + 1, y, N);
 };
-var h = function(z, b) {
+var S = function(z, b) {
   return Math.max(b, Math.pow(2, Math.ceil(Math.log(z) / Math.log(2))));
 };
 var O = function(z, b, k, y) {
   if (k < 1)
     throw new Error("Invalid count");
-  const N = h(z, y.min), U = h(b, y.min), w = new Map;
+  const N = S(z, y.min), U = S(b, y.min), w = new Map;
   let j = y.min;
   for (let P = 1;P <= k; P++) {
-    j = h(N * P, y.min);
-    const H = h(U * Math.ceil(k / P), y.min);
+    j = S(N * P, y.min);
+    const H = S(U * Math.ceil(k / P), y.min);
     w.set(j, H);
   }
   for (let P = j;P <= y.max; P *= 2)
@@ -162,14 +162,14 @@ var O = function(z, b, k, y) {
       w.set(P, U);
   return w;
 };
-var X = function(z, b, k, y, N) {
+var M = function(z, b, k, y, N) {
   if (z) {
     y(`${b}${k ? "\u2514\u2500\u2500 " : "\u251C\u2500\u2500 "}${N(z)}\n`);
     const U = b + (k ? "    " : "\u2502   ");
     if (z.left)
-      X(z.left, U, false, y, N);
+      M(z.left, U, false, y, N);
     if (z.right)
-      X(z.right, U, true, y, N);
+      M(z.right, U, true, y, N);
   }
 };
 var p = function(z) {
@@ -178,7 +178,7 @@ var p = function(z) {
 var u = function(z, b) {
   return z > b ? 1 : z < b ? -1 : 0;
 };
-var S = function(z) {
+var _ = function(z) {
   var b = z.right;
   if (z.right = b.left, b.left)
     b.left.parent = z;
@@ -193,7 +193,7 @@ var S = function(z) {
     b.balanceFactor += z.balanceFactor;
   return b;
 };
-var _ = function(z) {
+var E = function(z) {
   var b = z.left;
   if (z.left = b.right, z.left)
     z.left.parent = z;
@@ -209,7 +209,7 @@ var _ = function(z) {
   return b;
 };
 
-class M {
+class X {
   constructor(z, b = false) {
     this._comparator = z || u, this._root = null, this._size = 0, this._noDuplicates = !!b;
   }
@@ -424,14 +424,14 @@ class M {
         break;
       else if (N.balanceFactor < -1) {
         if (N.right.balanceFactor === 1)
-          _(N.right);
-        if (j = S(N), N === this._root)
+          E(N.right);
+        if (j = _(N), N === this._root)
           this._root = j;
         break;
       } else if (N.balanceFactor > 1) {
         if (N.left.balanceFactor === -1)
-          S(N.left);
-        if (j = _(N), N === this._root)
+          _(N.left);
+        if (j = E(N), N === this._root)
           this._root = j;
         break;
       }
@@ -481,14 +481,14 @@ class M {
         j.balanceFactor += 1;
       if (j.balanceFactor < -1) {
         if (j.right.balanceFactor === 1)
-          _(j.right);
-        if (H = S(j), j === this._root)
+          E(j.right);
+        if (H = _(j), j === this._root)
           this._root = H;
         j = H;
       } else if (j.balanceFactor > 1) {
         if (j.left.balanceFactor === -1)
-          S(j.left);
-        if (H = _(j), j === this._root)
+          _(j.left);
+        if (H = E(j), j === this._root)
           this._root = H;
         j = H;
       }
@@ -510,8 +510,8 @@ class M {
       throw new Error("bulk-load: tree is not empty");
     const y = z.length;
     if (k)
-      Q(z, b, 0, y - 1, this._comparator);
-    return this._root = R(null, z, b, 0, y), f(this._root), this._size = y, this;
+      f(z, b, 0, y - 1, this._comparator);
+    return this._root = R(null, z, b, 0, y), Q(this._root), this._size = y, this;
   }
   isBalanced() {
     return L(this._root);
@@ -520,7 +520,7 @@ class M {
     return n(this._root, z);
   }
 }
-M.default = M;
+X.default = X;
 
 class A {
   size;
@@ -586,7 +586,7 @@ var D = 4096;
 var g = 16;
 
 class B {
-  textureSlots = new M((z, b) => {
+  textureSlots = new X((z, b) => {
     const k = z.size[0] * z.size[1] - b.size[0] * b.size[1];
     if (k !== 0)
       return k;
@@ -732,8 +732,8 @@ class l {
         if (H.width = j || z.width, H.height = P || z.height, this.#z.putImageData(z.texImgSrc, 0, 0), b || k)
           console.warn("Offset not available when sending imageData");
       } else {
-        const F = y || z.width, E = N || z.height;
-        H.width = j || F, H.height = P || E, this.#z.drawImage(z.texImgSrc, b, k, F, E, 0, 0, H.width, H.height);
+        const F = y || z.width, h = N || z.height;
+        H.width = j || F, H.height = P || h, this.#z.drawImage(z.texImgSrc, b, k, F, h, 0, 0, H.width, H.height);
       }
       this.gl.texSubImage2D(W.TEXTURE_2D, 0, U, w, H.width, H.height, W.RGBA, W.UNSIGNED_BYTE, H);
     }
