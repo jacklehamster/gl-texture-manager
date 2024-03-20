@@ -1,1 +1,1 @@
-export type MediaId = number | string;
+export type MediaId = number;
