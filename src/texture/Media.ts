@@ -1,5 +1,5 @@
 import { CanvasProcessor } from "canvas-processor";
-import { MediaId } from "./ImageManager";
+import { MediaId } from "./MediaId";
 import { SpriteSheet } from "./spritesheet/SpriteSheet";
 
 export type MediaType = "image" | "video" | "canvas" | "draw" | "webcam" | string;

@@ -1,4 +1,4 @@
-import { MediaId } from './ImageManager';
+import { MediaId } from "./MediaId";
 
 export class MediaData {
   readonly width: number;

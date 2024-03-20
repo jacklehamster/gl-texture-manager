@@ -1,4 +1,5 @@
-import { ImageManager, MediaId } from "./texture/ImageManager";
+import { ImageManager } from "./texture/ImageManager";
+import { MediaId } from "./texture/MediaId";
 import { Media } from "./texture/Media";
 import { MediaData } from "./texture/MediaData";
 import { IImageManager } from "./texture/IImageManager";

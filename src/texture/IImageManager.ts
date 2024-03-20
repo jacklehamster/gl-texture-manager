@@ -1,4 +1,4 @@
-import { MediaId } from "./ImageManager";
+import { MediaId } from "./MediaId";
 import { Media } from "./Media";
 import { MediaData } from "./MediaData";
 import { Url } from "./TextureManager";

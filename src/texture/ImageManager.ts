@@ -2,8 +2,7 @@ import { Url } from "./TextureManager";
 import { MediaData } from "./MediaData";
 import { CanvasMedia, DrawMedia, ImageMedia, Media, MediaType, VideoMedia, WebcamMedia } from "./Media";
 import { IImageManager } from "./IImageManager";
-
-export type MediaId = number;
+import { MediaId } from "./MediaId";
 
 type DrawProcedure<T extends Media> = (imageId: MediaId, media: T) => Promise<MediaData>;
 
